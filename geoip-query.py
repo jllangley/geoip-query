@@ -11,12 +11,14 @@ parser.add_argument('-i', metavar='x.x.x.x', type=str, help='Insert IP address.'
 args = parser.parse_args()
 
 def ip_lookup_argv():
-	match = reader.city(args.i)
 	try:
+		match = reader.city(args.i)
 		dnslookup = socket.gethostbyaddr(args.i)
 		print (str(dnslookup)) + ", " +  (str(match.city.name)) + ", " +  (str(match.country.name)) + ", " +  (str(match.traits.user_type)) + ", " + (str(match.traits.domain))
 	except socket.herror:
 		print "unkown host" + ", " +  (str(match.city.name)) + ", " +  (str(match.country.name)) + ", " +  (str(match.traits.user_type)) + ", " + (str(match.traits.domain))
+	except geoip2.errors.AddressNotFoundError:
+		print "%s not in Database" % args.i
  
 def ip_lookup_csv():
 	with open(args.f) as txt_file:
@@ -28,7 +30,8 @@ def ip_lookup_csv():
 				print (str(dnslookup)) + ", " +  (str(match.city.name)) + ", " +  (str(match.country.name)) + ", " +  (str(match.traits.user_type)) + ", " + (str(match.traits.domain))
 			except socket.herror:
 				print "unkown host" + ", " +  (str(match.city.name)) + ", " +  (str(match.country.name)) + ", " +  (str(match.traits.user_type)) + ", " + (str(match.traits.domain))
-
+			except geoip2.errors.AddressNotFoundError:
+				print "%s not in Database" % args.i
 if args.f:
 	print ip_lookup_csv()
 elif args.i:
