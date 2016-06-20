@@ -5,6 +5,11 @@ Requires MaxMind GeoIP2 Python API
 
 https://github.com/maxmind/GeoIP2-python
 
+   sudo apt-get install geoipupdate
+   
+   sudo apt-get install libmaxminddb0
+
+
 # Usage
 Look up a single IP address using -i
 
